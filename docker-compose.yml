@@ -9,3 +9,13 @@ services:
     ports:
       - 8080:8080
     command: "php artisan serve --host=0.0.0.0 --port=8080"
+
+  db:
+    image: mysql:8.0.21
+    environment:
+      - MYSQL_DATABASE=shop
+      - MYSQL_USER=shop
+      - MYSQL_PASSWORD=shop
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    ports:
+      - 33306:3306
