@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -18,6 +19,8 @@ class Product extends Model
         'name',
         'price',
     ];
+
+    protected static $logAttributes = ['name', 'price'];
 
     protected static function boot()
     {
