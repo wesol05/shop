@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProduct;
-use App\Http\Resources\Product as ProductResource;
-use App\Models\Product;
+use App\Jobs\CreateProduct;
+use Ramsey\Uuid\Uuid;
 
 class ProductController extends Controller
 {
     public function store(StoreProduct $request)
     {
-        $product = new Product();
-        $product->fill($request->all());
-        $product->save();
+        $id = Uuid::uuid4();
+        CreateProduct::dispatch(
+            $id,
+            $request->get('name'),
+            $request->get('price')
+        );
 
-        return new ProductResource($product);
+        return $id;
     }
 }
