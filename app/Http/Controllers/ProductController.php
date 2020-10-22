@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProduct;
+use App\Http\Resources\ProductResource;
+use App\Models\Product as ProductModel;
 use App\Jobs\CreateProduct;
 use Ramsey\Uuid\Uuid;
+use Spatie\ResourceLinks\LinkResource;
+use Spatie\ResourceLinks\LinkResourceType;
 
 class ProductController extends Controller
 {
@@ -17,6 +21,13 @@ class ProductController extends Controller
             $request->get('price')
         );
 
-        return $id;
+        return [
+            'links' => LinkResource::create(null, LinkResourceType::ITEM)->link(self::class, ['product' => $id]),
+        ];
+    }
+
+    public function show(ProductModel $product)
+    {
+        return new ProductResource($product);
     }
 }
